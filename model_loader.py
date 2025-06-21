@@ -1,21 +1,8 @@
-from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
+# model_loader.py
+import google.generativeai as genai
+from config import API_KEY, MODEL_NAME
 
-def load_model(model_name="gpt2"):
-    """
-    Loads a Hugging Face text generation pipeline with the specified model.
-    Args:
-        model_name (str): The name of the Hugging Face model to load.
-    Returns:
-        pipeline: A text-generation pipeline object.
-    """
-    # Load model and tokenizer
-    model = AutoModelForCausalLM.from_pretrained(model_name)
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    
-    # Create pipeline with specific configuration
-    return pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        device=-1  # Use CPU
-    ) 
+def load_model():
+    """Loads the Gemini model"""
+    genai.configure(api_key=API_KEY)
+    return genai.GenerativeModel(MODEL_NAME)
